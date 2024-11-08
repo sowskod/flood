@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_flood'])) {
         $stmt->bind_param("iss", $brgy_id, $flood_date, $flood_level);
 
         if ($stmt->execute()) {
-            echo "<p>Flood data added successfully!</p>";
+            echo "<p></p>";
         } else {
             echo "<p>Error: " . $stmt->error . "</p>";
         }
@@ -80,83 +80,149 @@ if (count($flood_intervals) > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barangay Details</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #cce7ff, #b2f0e6);
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+        .heading {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .form-container, .history-container, .prediction-container {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 0.25rem;
+            margin-bottom: 1rem;
+        }
+        button {
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #357ab8;
+        }
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        .link {
+            text-decoration: none;
+            color: #4a90e2;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-right: 1rem;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        .high { background-color: rgba(255, 99, 132, 0.8); }
+        .medium { background-color: rgba(255, 206, 86, 0.8); }
+        .low { background-color: rgba(54, 162, 235, 0.8); }
+        .normal { background-color: rgba(75, 192, 192, 0.8); }
+    </style>
 </head>
-<body class="bg-gradient-to-b from-blue-200 to-green-200">
-    <!-- Arrow Link to Homepage -->
-    <a href="dashboard.php" style="position: absolute; top: 20px; left: 40px; text-decoration: none; color: black;">
-        <svg width="54" height="74" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" fill="#F7F7F7" stroke="black" stroke-width="2"/>
-            <path d="M8 12H16M8 12L12 8M8 12L12 16" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </a>
+<body>
+    <a href="dashboard.php" class="back-link">&larr; Back to Dashboard</a>
 
-    <div class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-200 to-green-200">
-        <h1 class="text-3xl font-bold mb-6">Barangay: <?php echo htmlspecialchars($brgy['brgy_name']); ?></h1>
-        <form action="brgy_details.php?brgy_id=<?php echo $brgy_id; ?>" method="POST" class="bg-white p-6 rounded-lg shadow-lg mb-8">
-            <div class="mb-4">
-                <label for="flood_date" class="block text-lg font-medium">Flood Date</label>
-                <input type="date" id="flood_date" name="flood_date" required class="mt-2 p-2 border border-gray-300 rounded-lg w-full">
-            </div>
-
-            <div class="mb-4">
-                <label for="flood_level" class="block text-lg font-medium">Flood Level</label>
-                <select id="flood_level" name="flood_level" required class="mt-2 p-2 border border-gray-300 rounded-lg w-full">
+    <div class="container">
+        <h1 class="heading">Barangay: <?php echo htmlspecialchars($brgy['brgy_name']); ?></h1>
+        
+        <div class="form-container">
+            <form action="brgy_details.php?brgy_id=<?php echo $brgy_id; ?>" method="POST">
+                <label for="flood_date">Flood Date</label>
+                <input type="date" id="flood_date" name="flood_date" required>
+                
+                <label for="flood_level">Flood Level</label>
+                <select id="flood_level" name="flood_level" required>
                     <option value="">-- Select Flood Level --</option>
                     <option value="Normal">Normal</option>
                     <option value="Low">Low</option>
                     <option value="Medium">Medium</option>
                     <option value="High">High</option>
                 </select>
+                
+                <button type="submit" name="add_flood">Add Flood Data</button>
+            </form>
+        </div>
+
+        <div class="history-container">
+            <h2>Flood History</h2>
+            <canvas id="floodHistoryChart" width="400" height="200"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-color high"></div>High</div>
+                <div class="legend-item"><div class="legend-color medium"></div>Medium</div>
+                <div class="legend-item"><div class="legend-color low"></div>Low</div>
+                <div class="legend-item"><div class="legend-color normal"></div>Normal</div>
             </div>
+            <br><br><br>
+            <div>
+                <a href="flood_history.php?brgy_id=<?php echo $brgy_id; ?>" class="link">View Full Flood History</a>
+                
+                <button onclick="generatePDF()">Generate PDF</button>
+            </div>
+        </div>
 
-            <button type="submit" name="add_flood" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Add Flood Data</button>
-        </form>
-
-        <!-- Bar Graph for Flood History -->
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-    <h2 class="text-xl font-bold mb-4">Flood History (Bar Graph)</h2>
-    <canvas id="floodHistoryChart" width="400" height="200"></canvas>
-    
-    <!-- View Flood History Button -->
-    <a href="flood_history.php?brgy_id=<?php echo $brgy_id; ?>" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-        View Full Flood History
-    </a>
-    
-    <!-- Print PDF Button -->
-    <a href="generate_pdf.php?brgy_id=<?php echo $brgy_id; ?>" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Download PDF</a>
-</div>
-
-        
-        <!-- Flood Prediction -->
-        <div class="bg-white p-6 rounded-lg shadow-lg mt-4">
-            <h2 class="text-xl font-bold mb-4">Flood Prediction</h2>
+        <div class="prediction-container">
+            <h2>Flood Prediction</h2>
             <?php if ($next_flood_prediction): ?>
-                <p>Based on historical data, the next flood is predicted to happen around: <strong><?php echo $next_flood_prediction; ?></strong></p>
+                <p>Next predicted flood is: <strong><?php echo $next_flood_prediction; ?></strong></p>
             <?php else: ?>
                 <p>Not enough data to make a prediction.</p>
             <?php endif; ?>
         </div>
+    </div>
 
-     
-
-        <script>
-    // Get flood data for the graph
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
     const floodData = <?php echo json_encode($flood_data); ?>;
-
-    // Extract dates and levels from flood data
     const floodDates = floodData.map(flood => flood.flood_date);
     const floodLevels = floodData.map(flood => flood.flood_level);
-
-    // Assign colors based on flood levels
     const floodColors = floodLevels.map(level => {
         switch(level) {
-            case 'High': return 'rgba(255, 99, 132, 0.8)';   // Red for High
-            case 'Medium': return 'rgba(255, 206, 86, 0.8)'; // Yellow for Medium
-            case 'Low': return 'rgba(54, 162, 235, 0.8)';    // Blue for Low
-            case 'Normal': return 'rgba(75, 192, 192, 0.8)'; // Green for Normal
-            default: return 'rgba(75, 192, 192, 0.2)';       // Default color
+            case 'High': return 'rgba(255, 99, 132, 0.8)';
+            case 'Medium': return 'rgba(255, 206, 86, 0.8)';
+            case 'Low': return 'rgba(54, 162, 235, 0.8)';
+            case 'Normal': return 'rgba(75, 192, 192, 0.8)';
+            default: return 'rgba(75, 192, 192, 0.2)';
         }
     });
 
@@ -167,38 +233,52 @@ if (count($flood_intervals) > 0) {
             labels: floodDates,
             datasets: [{
                 label: 'Flood Occurrences',
-                data: floodDates.map(() => 1), // Each flood counts as 1 occurrence
+                data: floodDates.map(() => 1),
                 backgroundColor: floodColors,
                 borderColor: floodColors.map(color => color.replace('0.8', '1')),
                 borderWidth: 1
             }]
-        }, 
+        },
         options: {
             scales: {
                 y: {
                     beginAtZero: true,
-                    ticks: {
-                        stepSize: 1
-                    }
+                    ticks: { stepSize: 1 }
                 }
             },
             plugins: {
-                legend: {
-                    display: true, // Show the legend
-                    labels: {
-                        generateLabels: function(chart) {
-                            return [
-                                { text: 'High', fillStyle: 'rgba(255, 99, 132, 0.8)' }, // Red
-                                { text: 'Medium', fillStyle: 'rgba(255, 206, 86, 0.8)' }, // Yellow
-                                { text: 'Low', fillStyle: 'rgba(54, 162, 235, 0.8)' },  // Blue
-                                { text: 'Normal', fillStyle: 'rgba(75, 192, 192, 0.8)' } // Green
-                            ];
-                        }
-                    }
-                }
+                legend: { display: true }
             }
         }
     });
+
+    // Function to send the chart data to generate_pdf.php
+    function generatePDF() {
+        // Get the chart image as base64
+        const chartImage = chart.toBase64Image();
+
+        // Send the data using a POST request
+        const formData = new FormData();
+        formData.append('chartImage', chartImage);
+        formData.append('brgy_id', <?php echo $brgy_id; ?>); // Ensure this is correctly populated
+
+        // Use fetch to send the form data to generate_pdf.php
+        fetch('generate_pdf.php?brgy_id=' + <?php echo $brgy_id; ?>, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.blob())
+        .then(blob => {
+            // Create a link element to download the PDF
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'flood_history_chart.pdf';
+            link.click();
+        })
+        .catch(error => {
+            console.error('Error generating PDF:', error);
+        });
+    }
 </script>
 </body>
 </html>

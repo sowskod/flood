@@ -1,26 +1,91 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flood Prediction System</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
     <style>
+        /* Background styling */
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(90deg, rgba(176, 240, 247, 1) 25%, rgba(114, 230, 207, 1) 66%, rgba(52, 184, 182, 1) 98%);
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        /* Main container */
+        .container {
+            text-align: center;
+        }
+
+        /* Logo styling */
         .logo {
-            width: 300px;
-            height: 300px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
+            margin-top: 20px;
+        }
+
+        /* Headings and text */
+        h1 {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2D3748;
+            /* Dark shade for title */
+        }
+
+        p {
+            font-size: 1.125em;
+            color: #4A5568;
+            /* Medium shade for subtitle */
+            margin-top: 5px;
+        }
+
+        h2 {
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #000;
+        }
+
+        /* Button styling */
+        .button {
+            display: inline-block;
+            background-color: #4299E1;
+            /* Blue shade */
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1em;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-top: 40px;
+        }
+
+        /* Hover effect for button */
+        .button:hover {
+            background-color: #3182CE;
+            /* Darker blue shade */
         }
     </style>
 </head>
+
 <body>
-    <div class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-200 to-green-200">
-        <h1 class="text-3xl font-bold text-zinc-800">Flood Prediction System</h1>
-        <p class="text-lg text-zinc-600">San Rafael, Bulacan</p>
-        <h2 class="mt-4 text-2xl font-extrabold text-black">WELCOME ADMINISTRATOR!</h2>
-        <img class="logo mr-4" src="images/san.jpg" alt="Logo">
-        <a href="dashboard.php" class="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded-lg mt-4">Click Here to Enter</a>
+    <div class="container">
+        <h1>Flood Prediction System</h1>
+        <p>San Rafael, Bulacan</p>
+        <h2>WELCOME ADMINISTRATOR!</h2>
+        <img class="logo" src="images/san.jpg" alt="Logo">
+        <div>
+            <a href="dashboard.php" class="button">Click Here to Enter</a>
+        </div>
     </div>
 </body>
+
 </html>

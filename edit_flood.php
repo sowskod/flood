@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_flood'])) {
     $stmt->bind_param("si", $flood_date, $flood_id);
 
     if ($stmt->execute()) {
-        header("Location: brgy_details.php?brgy_id=$brgy_id");
+        header("Location: flood_history.php?brgy_id=$brgy_id");
         exit;
     } else {
         echo "<p>Error: " . $stmt->error . "</p>";
@@ -38,7 +38,67 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_flood'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Flood Data</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+            body {
+            background: linear-gradient(to bottom, #b3e5fc, #c8e6c9);
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            margin-top: 60px;
+            width: 90%;
+            max-width: 600px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        label {
+            display: block;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input[type="date"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        button {
+            background-color: #1e88e5;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #1565c0;
+        }
+        </style>
 </head>
 <body>
 <a href="flood_history.php?brgy_id=<?php echo $brgy_id; ?>" style="position: absolute; top: 20px; left: 40px; text-decoration: none; color: black;">
@@ -47,17 +107,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_flood'])) {
         <path d="M8 12H16M8 12L12 8M8 12L12 16" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
 </a>
-    <div class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-200 to-green-200">
-        <h1 class="text-3xl font-bold mb-6">Edit Flood Data</h1>
-
-        <!-- Form to Edit Flood Data -->
-        <form action="" method="POST" class="bg-white p-6 rounded-lg shadow-lg">
-            <div class="mb-4">
-                <label for="flood_date" class="block text-lg font-medium">Flood Date</label>
-                <input type="date" id="flood_date" name="flood_date" value="<?php echo htmlspecialchars($flood['flood_date']); ?>" required class="mt-2 p-2 border border-gray-300 rounded-lg w-full">
-            </div>
-            
-            <button type="submit" name="update_flood" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Update Flood Data</button>
+<div class="container">
+        <h1>Edit Flood Data</h1>
+        <form action="" method="POST">
+            <label for="flood_date">Flood Date</label>
+            <input type="date" id="flood_date" name="flood_date" value="<?php echo htmlspecialchars($flood['flood_date']); ?>" required>
+            <button type="submit" name="update_flood">Update Flood Data</button>
         </form>
     </div>
 </body>

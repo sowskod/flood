@@ -48,30 +48,128 @@ $query = "
 $result = $con->query($query);
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flood Prediction Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
+        /* Background gradient */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(90deg, rgba(176,240,247,1) 25%, rgba(114,230,207,1) 66%, rgba(52,184,182,1) 98%);
+        }
+
+        /* Header styling */
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
         .logo {
             width: 60px;
             height: 60px;
             border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Main container styling */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Button styling */
+        .button {
+            background-color: #38A169; /* Green shade */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #2F855A; /* Darker green */
+        }
+
+        /* Barangay card styling */
+        .brgy-card {
+            background-color: #EDF2F7;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            width: 250px;
+            text-align: center;
+        }
+
+        .brgy-card h2 {
+            font-size: 1.25em;
+            color: #2D3748;
+        }
+
+        .brgy-card p {
+            font-size: 1em;
+            color: #4A5568;
+        }
+
+        .brgy-card a {
+            color: #3182CE; /* Blue link color */
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+
+        .brgy-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* Grid for barangays */
+        .brgy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            width: 100%;
+        }
+
+        /* Map styling */
+        iframe {
+            width: 100%;
+            max-width:80%;
+            height: 500px;
+            border: none;
+            margin-top: 30px;
         }
     </style>
 </head>
-<body class="bg-gradient-to-b from-blue-200 to-green-200">
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <img class="logo" src="images/san.jpg" alt="Logo">
+        <h1>Flood Prediction Dashboard</h1>
+    </div>
 
-<!-- Header Section -->
-<div class="flex items-center justify-center mt-8 mb-8">
-    <img class="logo mr-4" src="images/san.jpg" alt="Logo">
-    <h1 class="text-4xl font-bold text-gray-700">Flood Prediction Dashboard</h1>
-</div>
-        <div class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-200 to-green-200">
+    <div class="container">
         <!-- Add Barangay Form -->
+        <!-- Uncomment below if needed -->
+        <!--
         <form action="dashboard.php" method="POST" class="bg-white p-6 rounded-lg shadow-lg mb-8">
             <div class="mb-4">
                 <label for="brgy" class="block text-lg font-medium">Add Barangay</label>
@@ -79,31 +177,28 @@ $result = $con->query($query);
             </div>
             <button type="submit" name="add_brgy" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Add Brgy</button>
         </form>
-      
-        <a href="predict_flood.php" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Predict Flood Using Windspeed and Raonfall</a>
+        -->
         
+        <a href="predict_flood.php" class="button">Predict Flood Using Windspeed and Rainfall</a>
 
-        <!-- Display Barangays as clickable folders -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
+        <!-- Display Barangays as clickable cards -->
+        <div class="brgy-grid">
             <?php while ($row = $result->fetch_assoc()): ?>
-                <div class="bg-blue-200 p-4 rounded-lg shadow-md">
-                    <h2 class="text-lg font-bold">
-                        <a href="brgy_details.php?brgy_id=<?php echo $row['id']; ?>" class="text-black hover:underline">
+                <div class="brgy-card">
+                    <h2>
+                        <a href="brgy_details.php?brgy_id=<?php echo $row['id']; ?>">
                             <?php echo htmlspecialchars($row['brgy_name']); ?>
                         </a>
                     </h2>
-                    <p class="text-muted-foreground">
-                        Latest Flood: <?php echo $row['flood_date'] ? htmlspecialchars($row['flood_date']) : 'No data available'; ?>
-                    </p>
-                    <a href="edit_brgy.php?brgy_id=<?php echo $row['id']; ?>" class="text-blue-600 hover:underline">Edit</a>
-                    <a href="dashboard.php?delete_brgy=<?php echo $row['id']; ?>" class="text-red-500 hover:underline" onclick="return confirm('Are you sure you want to delete this barangay?');">Delete</a>
-           
+                    <p>Latest Flood: <?php echo $row['flood_date'] ? htmlspecialchars($row['flood_date']) : 'No data available'; ?></p>
+                   <!-- <a href="edit_brgy.php?brgy_id=<?php echo $row['id']; ?>">Edit</a> | 
+                    <a href="dashboard.php?delete_brgy=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete this barangay?');">Delete</a>-->
                 </div>
             <?php endwhile; ?>
         </div>
         
-       
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d123326.97863425352!2d120.89576979788184!3d14.994476919004072!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397005fc6e4e2c5%3A0x4b387b2ddd4537de!2sSan%20Rafael%2C%20Bulacan!5e0!3m2!1sen!2sph!4v1727240238400!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <!-- Map -->
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d123326.97863425352!2d120.89576979788184!3d14.994476919004072!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397005fc6e4e2c5%3A0x4b387b2ddd4537de!2sSan%20Rafael%2C%20Bulacan!5e0!3m2!1sen!2sph!4v1727240238400!5m2!1sen!2sph" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
 </body>
 </html>
