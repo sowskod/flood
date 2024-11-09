@@ -54,25 +54,64 @@
             color: #000;
         }
 
-        /* Button styling */
         .button {
-            display: inline-block;
-            background-color: #4299E1;
-            /* Blue shade */
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 1em;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-            margin-top: 40px;
-        }
+        height: 50px;
+        width: 300px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.5s ease-in-out;
+      }
 
-        /* Hover effect for button */
-        .button:hover {
-            background-color: #3182CE;
-            /* Darker blue shade */
-        }
+      .button:hover {
+        box-shadow: 0.5px 0.5px 150px #252525;
+      }
+
+      .type1::after {
+        content: "Thank you!";
+        height: 50px;
+        width: 300px;
+        background-color: #008080;
+        color: #fff;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        transform: translateY(50px);
+        font-size: 1.2rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.5s ease-in-out;
+      }
+
+      .type1::before {
+        content: "Click Here to Enter";
+        height: 50px;
+        width: 300px;
+        background-color: light gray;
+        color: #008080;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        transform: translateY(0px) scale(1.2);
+        font-size: 1.2rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.5s ease-in-out;
+      }
+
+      .type1:hover::after {
+        transform: translateY(0) scale(1.2);
+      }
+
+      .type1:hover::before {
+        transform: translateY(-50px) scale(0) rotate(120deg);
+      }
     </style>
 </head>
 
@@ -83,7 +122,13 @@
         <h2>WELCOME ADMINISTRATOR!</h2>
         <img class="logo" src="images/san.jpg" alt="Logo">
         <div>
-            <a href="dashboard.php" class="button">Click Here to Enter</a>
+            <br>
+        <center>
+    <a href="dashboard.php">
+        <button class="button type1"></button>
+    </a>
+</center>
+
         </div>
     </div>
 </body>
