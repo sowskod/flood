@@ -1,0 +1,65 @@
+Brgy Name,Rainfall (mm),Wind Speed (km/h),Temperature (°C),Risk Level,Elevation
+Banca-Banca,2,40,30,Low,15
+Banca-Banca,2,60,28,Low,15
+BMA – Balagtas,2,20,28,Low,15
+BMA – Balagtas,2,50,28,Low,15
+Coral na Bato,4,80,30,Medium,8
+Coral na Bato,5,40,28,Low,8
+Cruz na Daan,5,70,33,Medium,10
+Cruz na Daan,5,120,33,Medium,10
+Cruz na Daan,30,120,33,High,10
+Dagat-Dagatan,15,120,28,Medium,15
+Dagat-Dagatan,20,50,28,Medium,15
+Diliman I,6,80,23,Medium,10
+Diliman I,10,60,25,Medium,10
+Diliman II,2,40,24,High,3
+Diliman II,4,30,28,High,3
+Diliman II,2,30,28,High,3
+Libis,10,10,27,Low,15
+Libis,30,50,27,Medium,15
+Lico,15,40,29,Low,15
+Lico,8,60,27,Low,15
+Maasim,2,60,21,High,5
+Maasim,4,100,25,High,5
+Maasim,5,120,30,High,5
+Mabalas-Balas,40,200,26,Medium,15
+Maguinao,15,150,29,Medium,15
+Maronquillo,50,200,28,High,15
+Maronquillo,40,150,26,Medium,15
+Maronquillo,4,120,26,Low,15
+Paco,16,120,32,High,10
+Paco,40,200,28,Medium,10
+Pansumaloc,2,100,24,High,5
+Pansumaloc,2,60,30,High,5
+Pantubig,10,120,28,Low,15
+Pasong Bangkal,30,200,26,Medium,15
+Pasong Callos,29,150,27,Medium,15
+Pasong Intsik,2,60,32,Low,15
+Pinacpinacan,30,160,26,Medium,10
+Poblacion,2,100,29,Low,15
+Pulo,25,15,30,Low,15
+Pulong Bayabas,30,80,26,High,5
+Salapungan,80,65,32,Low,15
+Sampaloc,38,120,33,Medium,15
+San Agustin,10,250,28,Medium,15
+San Roque,31,95,34,Medium,10
+Sapang Pahalang,40,120,30,Low,15
+Talacsan,50,45,29,Low,10
+Tambubong,30,50,21,High,5
+Tukod,20,15,30,Low,15
+Ulingao,30,120,31,Medium,10
+Pulong Bayabas,8,150,21,High,5
+Maasim,4,80,21,High,5
+Diliman II,4,120,28,High,3
+Tambubong,3,150,25,High,5
+Pansumaloc,4,150,27,High,3
+Pansumaloc,20,140,27,High,3
+Maasim,10,200,21,High,3
+Maasim,4,150,27,High,3
+Sapang Pahalang,55,120,26,Medium,15
+BMA – Balagtas,20,200,28,High,15
+BMA – Balagtas,50,180,28,High,15
+BMA – Balagtas,30,250,28,High,15
+BMA – Balagtas,40,240,28,High,15
+
+
