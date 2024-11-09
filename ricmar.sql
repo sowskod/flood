@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3308
--- Generation Time: Oct 04, 2024 at 01:59 AM
+-- Generation Time: Nov 09, 2024 at 03:51 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -41,7 +41,7 @@ INSERT INTO `barangays` (`id`, `brgy_name`) VALUES
 (3, 'Caingin'),
 (4, 'Coral na Bato'),
 (5, 'Cruz na daan'),
-(6, 'Diliman'),
+(6, 'Diliman I'),
 (7, 'Capihan'),
 (8, 'Libis'),
 (9, 'Lico'),
@@ -50,10 +50,29 @@ INSERT INTO `barangays` (`id`, `brgy_name`) VALUES
 (12, 'Paco'),
 (13, 'Pansumaloc'),
 (14, 'Pantubig'),
-(15, 'Pulong Bayabas'),
-(16, 'Pulo'),
 (18, 'Pulo'),
-(19, 'Banca Banca');
+(19, 'Banca Banca'),
+(22, 'BMA - Balagtas'),
+(23, 'Dagat-Dagatan'),
+(24, 'Diliman II'),
+(25, 'Maronquillo'),
+(26, 'Pasong Bangkal'),
+(27, 'Pasong Callos'),
+(28, 'Pasong Intsik'),
+(29, 'Pinacpinacan'),
+(30, 'Poblacion'),
+(31, 'Pulong Bayabas'),
+(32, 'Salapungan'),
+(33, 'Sampaloc'),
+(34, 'San Agustin'),
+(35, 'San Roque'),
+(36, 'Sapang Pahalang'),
+(37, 'Talacsan'),
+(38, 'Tambubong'),
+(39, 'Tukod'),
+(40, 'Ulingao'),
+(41, 'Ulingao'),
+(42, 'Ulingao');
 
 -- --------------------------------------------------------
 
@@ -81,20 +100,12 @@ INSERT INTO `flood_data` (`id`, `brgy_id`, `flood_date`, `population`, `flood_le
 (22, 3, '2024-09-23', 0, 'Low'),
 (23, 3, '2024-09-23', 0, 'Normal'),
 (25, 3, '2024-09-23', 0, 'High'),
-(29, 19, '2024-09-25', 0, 'Normal'),
-(30, 19, '2024-09-16', 0, 'Medium'),
-(31, 19, '2024-10-04', 0, 'High'),
-(32, 19, '2024-10-04', 0, 'High'),
-(33, 19, '2024-10-04', 0, 'High'),
-(34, 19, '2024-10-04', 0, 'High'),
-(35, 19, '2024-10-04', 0, 'High'),
-(36, 19, '2024-10-04', 0, 'High'),
-(37, 19, '2024-10-04', 0, 'High'),
-(38, 19, '2024-10-04', 0, 'High'),
 (39, 19, '2024-10-04', 0, 'High'),
 (42, 6, '2024-09-26', 0, 'High'),
 (43, 6, '2024-09-27', 0, 'Low'),
-(44, 6, '2024-09-28', 0, 'Medium');
+(44, 6, '2024-09-28', 0, 'Medium'),
+(45, 19, '2024-11-08', 0, 'Low'),
+(48, 19, '2024-08-07', 0, 'Medium');
 
 -- --------------------------------------------------------
 
@@ -128,8 +139,6 @@ INSERT INTO `flood_dataa` (`id`, `brgy_id`, `rainfall`, `wind_speed`, `flood_occ
 (11, 12, 125, 198, NULL),
 (12, 13, 125, 198, NULL),
 (13, 14, 125, 198, NULL),
-(14, 15, 125, 198, NULL),
-(15, 16, 125, 198, NULL),
 (16, 18, 125, 198, NULL),
 (17, 19, 125, 198, NULL),
 (18, 2, 245, 254, NULL),
@@ -145,8 +154,6 @@ INSERT INTO `flood_dataa` (`id`, `brgy_id`, `rainfall`, `wind_speed`, `flood_occ
 (28, 12, 245, 254, NULL),
 (29, 13, 245, 254, NULL),
 (30, 14, 245, 254, NULL),
-(31, 15, 245, 254, NULL),
-(32, 16, 245, 254, NULL),
 (33, 18, 245, 254, NULL),
 (34, 19, 245, 254, NULL),
 (35, 2, 576, 765, NULL),
@@ -162,8 +169,6 @@ INSERT INTO `flood_dataa` (`id`, `brgy_id`, `rainfall`, `wind_speed`, `flood_occ
 (45, 12, 576, 765, NULL),
 (46, 13, 576, 765, NULL),
 (47, 14, 576, 765, NULL),
-(48, 15, 576, 765, NULL),
-(49, 16, 576, 765, NULL),
 (50, 18, 576, 765, NULL),
 (51, 19, 576, 765, NULL);
 
@@ -189,7 +194,7 @@ ALTER TABLE `flood_data`
 --
 ALTER TABLE `flood_dataa`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `brgy_id` (`brgy_id`);
+  ADD KEY `flood_dataa_ibfk_1` (`brgy_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -199,13 +204,13 @@ ALTER TABLE `flood_dataa`
 -- AUTO_INCREMENT for table `barangays`
 --
 ALTER TABLE `barangays`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `flood_data`
 --
 ALTER TABLE `flood_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `flood_dataa`
@@ -227,7 +232,7 @@ ALTER TABLE `flood_data`
 -- Constraints for table `flood_dataa`
 --
 ALTER TABLE `flood_dataa`
-  ADD CONSTRAINT `flood_dataa_ibfk_1` FOREIGN KEY (`brgy_id`) REFERENCES `barangays` (`id`);
+  ADD CONSTRAINT `flood_dataa_ibfk_1` FOREIGN KEY (`brgy_id`) REFERENCES `barangays` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -179,7 +179,7 @@ $result = $con->query($query);
         </form>
         -->
         
-        <a href="predict_flood.php" class="button">Predict Flood Using Windspeed and Rainfall</a>
+        <a href="predict_flood.php" class="button">Predict Flood</a>
 
         <!-- Display Barangays as clickable cards -->
         <div class="brgy-grid">
