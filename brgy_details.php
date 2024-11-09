@@ -204,7 +204,7 @@ if (count($flood_intervals) > 0) {
         <div class="prediction-container">
             <h2>Flood Prediction</h2>
             <?php if ($next_flood_prediction): ?>
-                <p>Next predicted flood is: <strong><?php echo $next_flood_prediction; ?></strong></p>
+                <p>Next predicted flood using historical data is: <strong><?php echo $next_flood_prediction; ?></strong></p>
             <?php else: ?>
                 <p>Not enough data to make a prediction.</p>
             <?php endif; ?>
