@@ -194,6 +194,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        .metrics {
+            display: none; /* Hidden by default */
+            margin-top: 20px;
+            background-color: #f1f8e9;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .metrics h3 {
+            color: #1e88e5;
+            margin-bottom: 10px;
+        }
+
+        .metrics p {
+            margin: 5px 0;
+        }
+
+.metrics.show {
+    display: block;
+    opacity: 1;
+}
+
     </style>
 </head>
 
@@ -270,6 +295,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         <?php endif; ?>
     </div>
+
+    <!-- Add the metrics section here -->
+    <div class="container">
+        <h1>Flood Prediction Metrics</h1>
+        <button id="showMetricsBtn">Show Metrics</button>
+
+        <!-- Metrics Section -->
+        <div class="metrics" id="metricsSection">
+        <h3>Numeric Evaluation Metrics:</h3>
+        <p><strong>Mean Absolute Error (MAE): 0.26</strong> - Measures the average magnitude of errors between predicted and actual values, without considering their direction. A lower value indicates better accuracy.</p>
+        <p><strong>Mean Squared Error (MSE): 0.26</strong> - Similar to MAE but squares the errors before averaging them, giving more weight to larger errors. Lower is better.</p>
+        <p><strong>Root Mean Squared Error (RMSE): 0.28</strong> - The square root of MSE, representing the error in the same units as the predicted values. Smaller RMSE values indicate better model performance.</p>
+        <p><strong>Explained Variance Score (EVS): 0.69</strong> - Indicates how much variance in the target variable is explained by the model. Values closer to 1 are better.</p>
+        <p><strong>R² Score: 0.72</strong> - Represents the proportion of the variance in the target variable that is predictable from the features. Values closer to 1 indicate a better fit.</p>
+
+        <h3>Classification Metrics:</h3>
+        <p><strong>Accuracy: 0.74</strong> - The ratio of correctly predicted instances to the total instances. A higher accuracy means better performance.</p>
+        <p><strong>Precision (macro): 0.76</strong> - The ability of the model to correctly identify positive cases while avoiding false positives. Calculated as the average precision across all classes.</p>
+        <p><strong>Recall (macro): 0.76</strong> - The ability of the model to identify all relevant instances of a class. It is the average recall across all classes.</p>
+        <p><strong>F1 Score (macro): 0.74</strong> - The harmonic mean of precision and recall. A higher F1 score indicates a better balance between precision and recall.</p>
+    </div>
+    </div>
 </body>
 
 </html>
+<script>
+    // JavaScript to toggle the metrics display and change button text
+document.addEventListener('DOMContentLoaded', function () {
+    const showMetricsBtn = document.getElementById('showMetricsBtn');
+    const metricsSection = document.getElementById('metricsSection');
+
+    showMetricsBtn.addEventListener('click', function () {
+        // Toggle the display of the metrics section
+        if (metricsSection.style.display === 'none' || metricsSection.style.display === '') {
+            metricsSection.style.display = 'block'; // Show the metrics
+            showMetricsBtn.textContent = 'Hide Metrics'; // Change button text to "Hide Metrics"
+        } else {
+            metricsSection.style.display = 'none'; // Hide the metrics
+            showMetricsBtn.textContent = 'Show Metrics'; // Change button text to "Show Metrics"
+        }
+    });
+});
+
+</script>

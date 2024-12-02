@@ -3,7 +3,20 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split, GridSearchCV
 import joblib
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    confusion_matrix,
+    classification_report,
+    mean_absolute_error,
+    mean_squared_error,
+    explained_variance_score,
+    r2_score  # Import R² score
+)
 from sklearn.model_selection import cross_val_score
+import numpy as np
 
 # Load your CSV data
 data = pd.read_csv("barangay_flood_risk.csv")
@@ -48,6 +61,29 @@ print(f'Cross-validated accuracy: {scores.mean():.2f}')
 
 # Retrain the best model on the entire training set
 best_model.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = best_model.predict(X_test)
+
+# Classification metrics
+print("Classification Metrics:")
+print(f"Accuracy: {accuracy_score(y_test, y_pred):.2f}")
+print(f"Precision (macro): {precision_score(y_test, y_pred, average='macro'):.2f}")
+print(f"Recall (macro): {recall_score(y_test, y_pred, average='macro'):.2f}")
+print(f"F1 Score (macro): {f1_score(y_test, y_pred, average='macro'):.2f}")
+print("Confusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred))
+
+# Numeric evaluation metrics
+y_pred_numeric = best_model.predict(X_test)
+print("\nNumeric Evaluation Metrics:")
+print(f"Mean Absolute Error (MAE): {mean_absolute_error(y_test, y_pred_numeric):.2f}")
+print(f"Mean Squared Error (MSE): {mean_squared_error(y_test, y_pred_numeric):.2f}")
+print(f"Root Mean Squared Error (RMSE): {np.sqrt(mean_squared_error(y_test, y_pred_numeric)):.2f}")
+print(f"Explained Variance Score (EVS): {explained_variance_score(y_test, y_pred_numeric):.2f}")
+print(f"R² Score: {r2_score(y_test, y_pred_numeric):.2f}")
 
 # Save the trained model
 joblib.dump(best_model, 'flood_risk_model.pkl')
