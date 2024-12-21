@@ -96,8 +96,7 @@ $result = $con->query($query);
 
         /* Button styling */
         .button {
-            background-color: #38A169;
-            /* Green shade */
+            background-color: #38A169; /* Green shade */
             color: white;
             padding: 10px 20px;
             border-radius: 8px;
@@ -108,8 +107,7 @@ $result = $con->query($query);
         }
 
         .button:hover {
-            background-color: #2F855A;
-            /* Darker green */
+            background-color: #2F855A; /* Darker green */
         }
 
         /* Barangay card styling */
@@ -161,6 +159,64 @@ $result = $con->query($query);
             border: none;
             margin-top: 30px;
         }
+        .button {
+        height: 50px;
+        width: 300px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.5s ease-in-out;
+      }
+
+      .button:hover {
+        box-shadow: 0.5px 0.5px 150px #252525;
+      }
+
+      .type1::after {
+        content: "Using Random Forest";
+        height: 50px;
+        width: 300px;
+        background-color: #008080;
+        color: #fff;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        transform: translateY(50px);
+        font-size: 1.2rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.5s ease-in-out;
+      }
+
+      .type1::before {
+        content: "Predict Flood";
+        height: 50px;
+        width: 300px;
+        background-color: light gray;
+        color: #008080;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        transform: translateY(0px) scale(1.2);
+        font-size: 1.2rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.5s ease-in-out;
+      }
+
+      .type1:hover::after {
+        transform: translateY(0) scale(1.2);
+      }
+
+      .type1:hover::before {
+        transform: translateY(-50px) scale(0) rotate(120deg);
+      }
     </style>
 </head>
 
@@ -183,7 +239,7 @@ $result = $con->query($query);
             <button type="submit" name="add_brgy" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Add Brgy</button>
         </form>
         -->
-
+        
         <a href="predict_flood.php" class="button">Predict Flood</a>
 
         <!-- Display Barangays as clickable cards -->
