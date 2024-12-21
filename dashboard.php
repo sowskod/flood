@@ -5,7 +5,7 @@ include 'db.php';
 // Handle the form submission to add a new barangay
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_brgy'])) {
     $brgy = $_POST['brgy'];
-    
+
     // Insert barangay into the database
     $stmt = $con->prepare("INSERT INTO barangays (brgy_name) VALUES (?)");
     $stmt->bind_param("s", $brgy);
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_brgy'])) {
 // Handle deletion of barangay
 if (isset($_GET['delete_brgy'])) {
     $brgy_id = $_GET['delete_brgy'];
-    
+
     // Delete barangay from the database
     $stmt = $con->prepare("DELETE FROM barangays WHERE id = ?");
     $stmt->bind_param("i", $brgy_id);
@@ -51,6 +51,7 @@ $result = $con->query($query);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,7 +61,7 @@ $result = $con->query($query);
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(90deg, rgba(176,240,247,1) 25%, rgba(114,230,207,1) 66%, rgba(52,184,182,1) 98%);
+            background: linear-gradient(90deg, rgba(176, 240, 247, 1) 25%, rgba(114, 230, 207, 1) 66%, rgba(52, 184, 182, 1) 98%);
         }
 
         /* Header styling */
@@ -95,7 +96,8 @@ $result = $con->query($query);
 
         /* Button styling */
         .button {
-            background-color: #38A169; /* Green shade */
+            background-color: #38A169;
+            /* Green shade */
             color: white;
             padding: 10px 20px;
             border-radius: 8px;
@@ -106,7 +108,8 @@ $result = $con->query($query);
         }
 
         .button:hover {
-            background-color: #2F855A; /* Darker green */
+            background-color: #2F855A;
+            /* Darker green */
         }
 
         /* Barangay card styling */
@@ -131,7 +134,8 @@ $result = $con->query($query);
         }
 
         .brgy-card a {
-            color: #3182CE; /* Blue link color */
+            color: #3182CE;
+            /* Blue link color */
             text-decoration: none;
             font-size: 0.9em;
         }
@@ -152,13 +156,14 @@ $result = $con->query($query);
         /* Map styling */
         iframe {
             width: 100%;
-            max-width:80%;
+            max-width: 80%;
             height: 500px;
             border: none;
             margin-top: 30px;
         }
     </style>
 </head>
+
 <body>
     <!-- Header Section -->
     <div class="header">
@@ -178,7 +183,7 @@ $result = $con->query($query);
             <button type="submit" name="add_brgy" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Add Brgy</button>
         </form>
         -->
-        
+
         <a href="predict_flood.php" class="button">Predict Flood</a>
 
         <!-- Display Barangays as clickable cards -->
@@ -191,14 +196,15 @@ $result = $con->query($query);
                         </a>
                     </h2>
                     <p>Latest Flood: <?php echo $row['flood_date'] ? htmlspecialchars($row['flood_date']) : 'No data available'; ?></p>
-                   <!-- <a href="edit_brgy.php?brgy_id=<?php echo $row['id']; ?>">Edit</a> | 
+                    <!-- <a href="edit_brgy.php?brgy_id=<?php echo $row['id']; ?>">Edit</a> | 
                     <a href="dashboard.php?delete_brgy=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete this barangay?');">Delete</a>-->
                 </div>
             <?php endwhile; ?>
         </div>
-        
+
         <!-- Map -->
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d123326.97863425352!2d120.89576979788184!3d14.994476919004072!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397005fc6e4e2c5%3A0x4b387b2ddd4537de!2sSan%20Rafael%2C%20Bulacan!5e0!3m2!1sen!2sph!4v1727240238400!5m2!1sen!2sph" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
 </body>
+
 </html>

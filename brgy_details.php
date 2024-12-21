@@ -68,10 +68,24 @@ if (count($flood_intervals) > 0) {
     $last_flood_date = end($flood_dates);
     
     $next_flood_date = new DateTime($last_flood_date);
-    $next_flood_date->modify("+$average_interval days");
+    
+    // Round the interval to the nearest whole number
+    $rounded_interval = round($average_interval);
+    
+    // Modify the date using the rounded interval
+    $next_flood_date->modify("+{$rounded_interval} days");
     
     $next_flood_prediction = $next_flood_date->format('Y-m-d');
 }
+$whole_days = floor($average_interval);
+$fractional_days = $average_interval - $whole_days;
+$hours = round($fractional_days * 24);
+
+$next_flood_date = new DateTime($last_flood_date);
+$next_flood_date->modify("+{$whole_days} days");
+$next_flood_date->modify("+{$hours} hours");
+
+
 ?>
 
 <!DOCTYPE html>
@@ -183,6 +197,15 @@ if (count($flood_intervals) > 0) {
                 <button type="submit" name="add_flood">Add Flood Data</button>
             </form>
         </div>
+        <div class="form-container">
+        <!-- Form to upload Excel file -->
+        <form action="upload_excel.php?brgy_id=<?php echo $brgy_id; ?>" method="POST" enctype="multipart/form-data">
+            <label for="flood_excel">Upload Excel File</label>
+            <input type="file" id="flood_excel" name="flood_excel" accept=".xls,.xlsx" required>
+            
+            <button type="submit" name="upload_excel">Upload Flood Data</button>
+        </form>
+    </div>
 
         <div class="history-container">
             <h2>Flood History</h2>

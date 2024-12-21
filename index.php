@@ -112,10 +112,101 @@
       .type1:hover::before {
         transform: translateY(-50px) scale(0) rotate(120deg);
       }
+      .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            z-index: 10;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .overlay h2 {
+            font-size: 6em;
+            color: maroon;
+            text-shadow: 4px 4px 5px red;
+            margin-bottom: 10px;
+        }
+
+        .overlay h4 {
+            font-size: 1.25em;
+            text-shadow: 4px 4px 5px red;
+            margin-bottom: 20px;
+        }
+
+        /* About Developer button styling */
+        .about-button {
+            padding: 10px 20px;
+            background: rgb(210,81,81);
+background: linear-gradient(90deg, rgba(210,81,81,1) 20%, rgba(226,39,39,1) 56%, rgba(217,0,0,1) 80%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 20;
+            max-width: 300px;
+            text-align: center;
+        }
+
+        .modal h2 {
+            margin: 0 0 10px;
+        }
+
+        .modal p {
+            margin: 0;
+            color: #333;
+        }
+
+        .modal-close {
+            margin-top: 15px;
+            background-color: #008080;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+    
+
     </style>
 </head>
 
 <body>
+<!--<div class="overlay">
+        <h2>Website Restricted by Developer Due to Incomplete Payment for Development.</h2>
+        <h4>If you are the site owner, please contact the developer and make the payment before your final defense, or your website will be lost.</h4>
+        <button class="about-button" onclick="showModal()">About Payment</button>
+    </div>
+    
+        /* Main container */
+        .container {
+            text-align: center;
+            opacity: 0.99; /* Dim the main content */
+            pointer-events: none; /* Disable interaction */
+        }-->
     <div class="container">
         <h1>Flood Prediction System</h1>
         <p>San Rafael, Bulacan</p>
@@ -131,6 +222,29 @@
 
         </div>
     </div>
+
+   <!-- <div class="modal" id="developerModal">
+        <h2>Client Information</h2>
+        <p>Name: Eljohn Tristan Del Rosario</p><br>
+      <p>For sale: Kambing, Tricycle, </p>
+      <p>Panabong na Manok sama na si Shiro</p>
+      <p>discounted pag package</p>
+      <p>PM For Price</p>
+        
+        <button class="modal-close" onclick="hideModal()">Close</button>
+    </div>
+
+    <script>
+        // Show the modal
+        function showModal() {
+            document.getElementById('developerModal').style.display = 'block';
+        }
+
+        // Hide the modal
+        function hideModal() {
+            document.getElementById('developerModal').style.display = 'none';
+        }
+    </script>-->
 </body>
 
 </html>
