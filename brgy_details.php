@@ -188,7 +188,10 @@ if ($average_interval && $last_flood_date) {
         <div class="form-container">
             <form action="brgy_details.php?brgy_id=<?php echo $brgy_id; ?>" method="POST">
                 <label for="flood_date">Flood Date</label>
-                <input type="date" id="flood_date" name="flood_date" required>
+                <input type="date" id="flood_date" name="flood_date" required readonly value="<?php
+                    $date = new DateTime('now', new DateTimeZone('Asia/Manila'));
+                    echo $date->format('Y-m-d');
+                ?>">
                 
                 <label for="flood_level">Flood Level</label>
                 <select id="flood_level" name="flood_level" required>
