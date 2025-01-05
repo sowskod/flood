@@ -28,11 +28,16 @@ if (isset($_POST['upload_excel']) && isset($_FILES['flood_excel'])) {
             $stmt->execute();
         }
 
-        echo "Flood data uploaded successfully.";
-    } catch (Exception $e) {
-        echo "Error uploading file: " . $e->getMessage();
-    }
+         // Redirect to the barangay details page after successful upload
+         echo "<script>
+         alert('File uploaded successfully!');
+         window.location.href = 'brgy_details.php?brgy_id=" . htmlspecialchars($brgy_id) . "';
+     </script>";
+     exit; // Stop further script execution
+ } catch (Exception $e) {
+     echo "Error uploading file: " . $e->getMessage();
+ }
 } else {
-    echo "No file uploaded.";
+ echo "No file uploaded.";
 }
 ?>

@@ -2,6 +2,29 @@
 // Connect to database
 include 'db.php';
 
+$apiKey = '88bc399999fec96520c3cab69b8caa9d'; // Get your key from https://openweathermap.org/api
+$city = 'San Rafael, PH'; // City name or coordinates (latitude, longitude)
+
+// Construct the API URL to fetch the weather data
+$weatherUrl = "http://api.openweathermap.org/data/2.5/weather?q=" . urlencode($city) . "&appid=" . $apiKey . "&units=metric"; // Use units=metric for Celsius
+
+// Fetch weather data using file_get_contents
+$weatherData = file_get_contents($weatherUrl);
+
+// Decode the JSON response
+$weatherArray = json_decode($weatherData, true);
+
+// Check if the API call was successful
+if ($weatherArray['cod'] == 200) {
+    $weatherMain = $weatherArray['main'];
+    $weatherDescription = $weatherArray['weather'][0]['description'];
+    $temp = $weatherMain['temp']; // Current temperature
+    $humidity = $weatherMain['humidity']; // Humidity
+    $windSpeed = $weatherArray['wind']['speed']; // Wind speed
+    $weatherIcon = "http://openweathermap.org/img/w/" . $weatherArray['weather'][0]['icon'] . ".png"; // Weather icon URL
+} else {
+    $errorMessage = $weatherArray['message']; // API error message
+}
 // Handle the form submission to add a new barangay
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_brgy'])) {
     $brgy = $_POST['brgy'];
@@ -145,63 +168,177 @@ $result = $con->query($query);
             margin-top: 30px;
         }
 
-        .button {
-            height: 50px;
-            width: 300px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s ease-in-out;
-        }
+       /* Flex container for the buttons */
+.button-container {
+    display: flex;
+    justify-content: center; /* Align buttons horizontally in the center */
+    gap: 20px; /* Adds spacing between buttons */
+    margin-top: 20px;
+}
 
-        .button:hover {
-            box-shadow: 0.5px 0.5px 150px #252525;
-        }
+/* Button styles */
+.button {
+    height: 50px;
+    width: 300px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+}
 
-        .type1::after {
-            content: "Using Random Forest";
-            height: 50px;
-            width: 300px;
-            background-color: #008080;
-            color: #fff;
-            position: absolute;
-            top: 0%;
-            left: 0%;
-            transform: translateY(50px);
-            font-size: 1.2rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.5s ease-in-out;
-        }
+.button:hover {
+    box-shadow: 0.5px 0.5px 150px #252525;
+}
 
-        .type1::before {
-            content: "Predict Flood";
-            height: 50px;
-            width: 300px;
-            background-color: light gray;
-            color: #008080;
-            position: absolute;
-            top: 0%;
-            left: 0%;
-            transform: translateY(0px) scale(1.2);
-            font-size: 1.2rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.5s ease-in-out;
-        }
+/* Type1 button */
+.type1::after {
+    content: "Using Random Forest";
+    height: 50px;
+    width: 300px;
+    background-color: #008080;
+    color: #fff;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    transform: translateY(50px);
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s ease-in-out;
+}
 
-        .type1:hover::after {
-            transform: translateY(0) scale(1.2);
-        }
+.type1::before {
+    content: "Predict Flood";
+    height: 50px;
+    width: 300px;
+    background-color: light gray;
+    color: #008080;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    transform: translateY(0px) scale(1.2);
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s ease-in-out;
+}
 
-        .type1:hover::before {
-            transform: translateY(-50px) scale(0) rotate(120deg);
+.type1:hover::after {
+    transform: translateY(0) scale(1.2);
+}
+
+.type1:hover::before {
+    transform: translateY(-50px) scale(0) rotate(120deg);
+}
+
+/* Type2 button */
+.type2::after {
+    content: "Flood Data";
+    height: 50px;
+    width: 300px;
+    background-color: #008080;
+    color: #fff;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    transform: translateY(50px);
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s ease-in-out;
+}
+
+.type2::before {
+    content: "View Chart";
+    height: 50px;
+    width: 300px;
+    background-color: light gray;
+    color: #008080;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    transform: translateY(0px) scale(1.2);
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s ease-in-out;
+}
+
+.type2:hover::after {
+    transform: translateY(0) scale(1.2);
+}
+
+.type2:hover::before {
+    transform: translateY(-50px) scale(0) rotate(120deg);
+}
+
+       .weather-widget {
+    background: linear-gradient(135deg, #a0c4c8, #88d9e2);  /* Gradient background */
+    padding: 30px;
+    border-radius: 15px;  /* More rounded corners */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);  /* Softer shadow with more depth */
+    margin: 20px auto;
+    width: 420px;  /* Slightly wider widget */
+    text-align: center;
+    transition: transform 0.3s ease-in-out;  /* Hover effect for smooth scaling */
+}
+
+.weather-widget:hover {
+    transform: translateY(-10px);  /* Slight lift effect on hover */
+}
+
+.weather-widget img {
+    width: 150px;  /* Slightly larger icon */
+    height: 150px;
+    margin-bottom: 15px;  /* Add space below icon */
+    transition: transform 0.3s ease-in-out;
+}
+
+.weather-widget img:hover {
+    transform: rotate(15deg);  /* Add slight rotation on hover */
+}
+
+.weather-widget h2 {
+    font-size: 1.6em;  /* Slightly larger font size */
+    color: #2d3748;  /* Darker text for the header */
+    margin: 10px 0;
+    font-family: 'Roboto', sans-serif;  /* Modern font */
+}
+
+.weather-widget p {
+    font-size: 1.1em;
+    color: #4a5568;
+    margin: 5px 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.weather-widget .weather-info {
+    font-size: 1.1em;
+    color: #2d3748;
+    font-weight: 500;
+}
+
+.weather-widget .weather-info span {
+    color: #38b2ac;  /* Accent color for temperature, wind speed, etc. */
+    font-weight: bold;
+}
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #fff;
+            margin-top: 40px;
+            font-size: 1.1em;
         }
     </style>
 </head>
@@ -212,7 +349,21 @@ $result = $con->query($query);
         <img class="logo" src="images/san.jpg" alt="Logo">
         <h1>Flood Prediction Dashboard</h1>
     </div>
-
+    <div class="container">
+        <!-- Weather Widget -->
+        <?php if (isset($temp)): ?>
+            <div class="weather-widget">
+                <h2>Current Weather in <?php echo $city; ?></h2>
+                <img src="<?php echo $weatherIcon; ?>" alt="Weather icon">
+                <p class="weather-info">Temperature: <?php echo $temp; ?>°C</p>
+                <p class="weather-info">Humidity: <?php echo $humidity; ?>%</p>
+                <p class="weather-info">Wind Speed: <?php echo $windSpeed; ?> m/s</p>
+                <p class="weather-info">Condition: <?php echo ucfirst($weatherDescription); ?></p>
+            </div>
+        <?php else: ?>
+            <p>Error fetching weather data: <?php echo $errorMessage; ?></p>
+        <?php endif; ?>
+    </div>
     <div class="container">
         <!-- Add Barangay Form -->
         <!-- Uncomment below if needed -->
@@ -226,9 +377,15 @@ $result = $con->query($query);
         </form>
         -->
 
-        <a href="predict_flood.php">
-            <button class="button type1"></button>
-        </a>
+        <div class="button-container">
+    <a href="predict_flood.php">
+        <button class="button type1"></button>
+    </a>
+    <a href="chart.php">
+        <button class="button type2"></button>
+    </a>
+</div>
+
 
         <!-- Display Barangays as clickable cards -->
         <div class="brgy-grid">
@@ -244,11 +401,52 @@ $result = $con->query($query);
                     <a href="dashboard.php?delete_brgy=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete this barangay?');">Delete</a>-->
                 </div>
             <?php endwhile; ?>
-        </div>
+            <!-- Include Leaflet.js for maps -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</div>
+<!-- Include OpenWeatherMap Tile Layers -->
+<script src="https://unpkg.com/leaflet-openweathermap"></script>
+
+<div id="map" style="width: 100%; height: 500px;"></div>
+
+<script>
+    var map = L.map('map').setView([14.9944769, 120.8957698], 10);  // Center the map to San Rafael, PH
+
+    // Add OpenStreetMap base layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Add OpenWeatherMap layers for clouds and wind
+    var cloudLayer = L.tileLayer('https://{s}.tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=88bc399999fec96520c3cab69b8caa9d', {
+        attribution: '&copy; <a href="https://openweathermap.org/">OpenWeatherMap</a>',
+        opacity: 0.7
+    }).addTo(map);
+
+    var windLayer = L.tileLayer('https://{s}.tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=88bc399999fec96520c3cab69b8caa9d', {
+        attribution: '&copy; <a href="https://openweathermap.org/">OpenWeatherMap</a>',
+        opacity: 0.7
+    }).addTo(map);
+
+    // Toggle between layers
+    var baseLayers = {
+        "Clouds": cloudLayer,
+        "Wind": windLayer
+    };
+
+    L.control.layers(baseLayers).addTo(map);
+</script>
+
+
+       
 
         <!-- Map -->
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d123326.97863425352!2d120.89576979788184!3d14.994476919004072!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397005fc6e4e2c5%3A0x4b387b2ddd4537de!2sSan%20Rafael%2C%20Bulacan!5e0!3m2!1sen!2sph!4v1727240238400!5m2!1sen!2sph" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+       
     </div>
+    <footer>
+        <p>Flood Prediction Dashboard - San Rafael, PH</p>
+    </footer>
 </body>
 
 </html>

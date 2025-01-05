@@ -63,28 +63,33 @@ for ($i = 1; $i < count($flood_dates); $i++) {
 
 // Simple prediction
 $next_flood_prediction = null;
+$average_interval = null;
+$last_flood_date = null;
+
 if (count($flood_intervals) > 0) {
     $average_interval = array_sum($flood_intervals) / count($flood_intervals);
     $last_flood_date = end($flood_dates);
-    
+
     $next_flood_date = new DateTime($last_flood_date);
-    
+
     // Round the interval to the nearest whole number
     $rounded_interval = round($average_interval);
-    
+
     // Modify the date using the rounded interval
     $next_flood_date->modify("+{$rounded_interval} days");
-    
+
     $next_flood_prediction = $next_flood_date->format('Y-m-d');
 }
-$whole_days = floor($average_interval);
-$fractional_days = $average_interval - $whole_days;
-$hours = round($fractional_days * 24);
 
-$next_flood_date = new DateTime($last_flood_date);
-$next_flood_date->modify("+{$whole_days} days");
-$next_flood_date->modify("+{$hours} hours");
+if ($average_interval && $last_flood_date) {
+    $whole_days = floor($average_interval);
+    $fractional_days = $average_interval - $whole_days;
+    $hours = round($fractional_days * 24);
 
+    $next_flood_date = new DateTime($last_flood_date);
+    $next_flood_date->modify("+{$whole_days} days");
+    $next_flood_date->modify("+{$hours} hours");
+}
 
 ?>
 
